@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Bingo - Wheel Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;700;900&display=swap');
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Kanit', sans-serif; }
+
+        body {
+            height: 100vh; width: 100vw; overflow: hidden; margin: 0;
+            background: linear-gradient(
+                135deg,
+                #0b041e 0%,
+                #140b34 40%,
+                #1d1145 70%,
+                #3b1c75 100%
+            );
+            display: flex; flex-direction: column; color: #333;
+        }
+
+        .logo {
+            display: none;
+        }
+
+        .bg-graph {
+            position: absolute;
+            bottom: 0; width: 100%; height: 200px;
+            display: flex; justify-content: space-around; align-items: flex-end;
+            padding: 0 10%; z-index: 0; opacity: 0.15;
+        }
+        .bar { width: 80px; background: #3b1c75; border-radius: 10px 10px 0 0;
+        animation: grow 3s infinite alternate; }
+        .bar:nth-child(2) { background: #f57c00; animation-delay: 0.2s; }
+        .bar:nth-child(3) { background: #fbbf24; animation-delay: 0.4s; }
+        @keyframes grow { from { height: 50px; } to { height: 150px; } }
+
+        .header {
+            height: 120px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 54px; font-weight: 900; color: #f57c00; letter-spacing: 2px;
+            text-shadow: 3px 3px 0px #ffffff, 6px 6px 0px #1d1145, 0px 10px 20px rgba(0,0,0,0.6);
+            z-index: 1;
+            margin-top: 10px;
+        }
+
+        .main { display:flex; flex: 1; padding: 0 40px 40px; gap: 30px;
+        overflow: hidden; z-index: 1; }
+
+        .sidebar {
+            width: 340px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            border-radius: 25px; display: flex; flex-direction: column;
+            border: 3px solid #f57c00; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .out-header {
+            background: #1d1145;
+            color: #fff; padding: 18px; text-align: center;
+            font-size: 24px; font-weight: 900; border-radius: 20px 20px 0 0;
+        }
+
+        .out-list { flex: 1; overflow-y: auto; padding: 15px; }
+        
+        .out-item {
+            background: #fff;
+            color: #1d1145; padding: 12px; margin-bottom: 10px;
+            border-radius: 12px; display: flex; gap: 15px; font-weight: 700;
+            border-left: 5px solid #f57c00;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            font-size: 18px;
+        }
+
+        .center { flex: 1; display: flex;
+        align-items: center; justify-content: center; }
+        
+        .board { width: 100%; max-width: 800px; text-align: center; }
+
+        .word-box {
+            min-height: 350px;
+            width: 100%; background: #ffffff; border-radius: 40px;
+            display: flex; align-items: center; justify-content: center; padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border: 8px solid #f57c00;
+            margin-bottom: 35px; overflow: hidden;
+        }
+
+        .word { font-weight: 900;
+        color: #1d1145; white-space: nowrap; display: inline-block; }
+
+        .button-wrap { display: flex; gap: 20px;
+        justify-content: center; }
+        
+        button {
+            border: none;
+            padding: 18px 50px; border-radius: 50px; font-size: 24px;
+            font-weight: 700; cursor: pointer; transition: 0.2s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        button:hover { transform: translateY(-3px); opacity: 0.95; }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .draw-btn { background: linear-gradient(135deg, #f57c00, #ff9800); color: #fff; }
+        .reset-btn { background: #e2e8f0; color: #334155; }
+        
+        @media (max-width: 768px) {
+            .main { flex-direction: column; padding: 15px; gap: 15px; overflow-y: auto; }
+            .sidebar { width: 100%; height: 250px; }
+            .header { font-size: 36px; height: 80px; }
+            .word-box { min-height: 200px; padding: 20px; border-width: 5px; }
+            button { padding: 12px 30px; font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-graph">
+    <div class="bar" style="height: 100px;"></div>
+    <div class="bar" style="height: 140px;"></div>
+    <div class="bar" style="height: 120px;"></div>
+    <div class="bar" style="height: 160px;"></div>
+</div>
+
+<div class="header">COMPLIANCE BINGO</div>
+
+<div class="main">
+    <div class="sidebar">
+        <div class="out-header">รายการที่ออกแล้ว</div>
+        <div class="out-list" id="history"></div>
+    </div>
+    <div class="center">
+        <div class="board">
+            <div class="word-box"><div class="word" id="current">-</div></div>
+    
+            <div class="button-wrap">
+                <button class="draw-btn" onclick="draw()" id="btn">🎲 สุ่มคำ</button>
+                <button class="reset-btn" onclick="resetGame()">🔄 เริ่มใหม่</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const words = [
+        "ตรวจสอบ", "อนุมัติ", "รายงาน", "ธรรมนำการ", "ความรับผิดชอบ",
+        "ความโปร่งใส", "คุณธรรม", "จริยธรรม", "นโยบาย", "กฎระเบียบ",
+        "มาตรฐาน", "การประเมิน", "การตรวจสอบ", "ข้อมูล", "การบันทึก",
+        "ความปลอดภัย", "ความเป็นส่วนตัว", "ความเสี่ยง", "การควบคุม", "การบริหาร",
+        "การปฏิบัติตาม", "การทำให้เป็นทางการ", "การอนุมัติ", "การตรวจสอบเอกสาร", "การประสานงาน",
+        "การฝึกอบรม", "การรับรอง", "ความเป็นอิสระ", "การจัดการความขัดแย้ง", "การสื่อสาร",
+        "การบันทึกรายละเอียด", "การจัดหมวดหมู่", "การติดตามผล", "การปรับปรุง", "การพัฒนา"
+    ];
+
+    let remaining = [...words];
+    let used = [];
+
+    function fitText(el) {
+        let size = 120;
+        el.style.fontSize = size + "px";
+        while(el.scrollWidth > (el.parentElement.clientWidth - 80) && size > 40){
+            size -= 2;
+            el.style.fontSize = size + "px";
+        }
+    }
+
+    function draw(){
+        const btn = document.getElementById('btn');
+        const display = document.getElementById('current');
+        if (remaining.length === 0) { alert("หมดคำแล้ว!"); return; }
+        btn.disabled = true;
+        let spin = 0;
+        const interval = setInterval(()=>{
+            display.innerText = words[Math.floor(Math.random()*words.length)];
+            fitText(display);
+            spin++;
+            if(spin > 15){
+                clearInterval(interval);
+                const picked = remaining.splice(Math.floor(Math.random()*remaining.length), 1)[0];
+                used.unshift(picked);
+                display.innerText = picked;
+                fitText(display);
+                renderHistory();
+                btn.disabled = false;
+            }
+        }, 80);
+    }
+
+    function resetGame(){
+        if(confirm("เริ่มเกมใหม่ใช่ไหม?")){
+            remaining = [...words];
+            used = [];
+            document.getElementById('current').innerText = '-';
+            document.getElementById('history').innerHTML = '';
+        }
+    }
+
+    function renderHistory(){
+        document.getElementById('history').innerHTML = used.map((w,i) => 
+            `<div class="out-item"><div>${used.length - i}.</div><div>${w}</div></div>`
+        ).join('');
+    }
+</script>
+</body>
+</html>
