@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Word (Number Placeholder)</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --primary: #22c55e;
+      --primary-hover: #16a34a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #0b1022, #111827);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Thai", sans-serif;
+      padding: 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+    }
+
+    .result {
+      display: grid;
+      place-items: center;
+      min-height: 120px;
+      border: 1px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      user-select: none;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      background: var(--primary);
+      transition: 0.15s ease;
+    }
+
+    button:hover { background: var(--primary-hover); }
+    button:active { transform: translateY(1px); }
+
+    .secondary {
+      background: #374151;
+    }
+    .secondary:hover {
+      background: #4b5563;
+    }
+
+    .hint {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    code {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: #d1fae5;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>สุ่มคำศัพท์</h1>
+
+    <div id="result" class="result">กดปุ่มเพื่อสุ่ม</div>
+
+    <div class="controls">
+      <button id="randomBtn" type="button">สุ่ม</button>
+      <button id="resetBtn" class="secondary" type="button">รีเซ็ต</button>
+    </div>
+
+    <p class="hint">
+      แก้คำศัพท์ทีหลังได้ที่ตัวแปร <code>wordList</code><br />
+      ตอนนี้ตั้งเป็นเลข <code>"1" ถึง "50"</code>
+    </p>
+  </main>
+
+  <script>
+    const wordList = Array.from({ length: 50 }, (_, i) => String(i + 1));
+
+    const resultEl = document.getElementById("result");
+    const randomBtn = document.getElementById("randomBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function pickRandomItem(list) {
+      if (!Array.isArray(list) || list.length === 0) return null;
+      const index = Math.floor(Math.random() * list.length);
+      return list[index];
+    }
+
+    function showRandom() {
+      const picked = pickRandomItem(wordList);
+      resultEl.textContent = picked ?? "ไม่มีข้อมูลสำหรับสุ่ม";
+    }
+
+    function resetResult() {
+      resultEl.textContent = "กดปุ่มเพื่อสุ่ม";
+    }
+
+    if (randomBtn) randomBtn.addEventListener("click", showRandom);
+    if (resetBtn) resetBtn.addEventListener("click", resetResult);
+  </script>
+</body>
+</html>
