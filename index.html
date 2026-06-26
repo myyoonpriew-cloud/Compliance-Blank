@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Random Word (Number Placeholder)</title>
+  <title>Compliance Definitions</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -102,7 +102,7 @@
 </head>
 <body>
   <main class="card">
-    <h1>สุ่มคำศัพท์</h1>
+    <h1>สุ่มศัพท์ Compliance</h1>
 
     <div id="result" class="result">กดปุ่มเพื่อสุ่ม</div>
 
@@ -112,13 +112,64 @@
     </div>
 
     <p class="hint">
-      แก้คำศัพท์ทีหลังได้ที่ตัวแปร <code>wordList</code><br />
-      ตอนนี้ตั้งเป็นเลข <code>"1" ถึง "50"</code>
+      ศัพท์เกี่ยวกับ Compliance สำหรับการศึกษาและทำความเข้าใจ<br />
+      จำนวนรวม <code>"50"</code> ศัพท์
     </p>
   </main>
 
   <script>
-    const wordList = Array.from({ length: 50 }, (_, i) => String(i + 1));
+    const wordList = [
+      "1. Compliance - ความสอดคล้องตามกฎเกณฑ์และข้อบังคับ",
+      "2. Governance - การบริหารจัดการและการกำกับดูแล",
+      "3. Risk Management - การจัดการความเสี่ยง",
+      "4. Audit - การตรวจสอบและประเมินผล",
+      "5. Policy - นโยบายและหลักเกณฑ์",
+      "6. Regulation - ข้อกำหนด และระเบียบข้อบังคับ",
+      "7. Procedure - ขั้นตอนการปฏิบัติงาน",
+      "8. Control - การควบคุมและกลไกการตรวจสอบ",
+      "9. Documentation - เอกสารและบันทึกข้อมูล",
+      "10. Evidence - หลักฐานที่เป็นไปตามข้อกำหนด",
+      "11. Assessment - การประเมินความสอดคล้อง",
+      "12. Compliance Officer - เจ้าหน้าที่ปฏิบัติตามกฎข้อบังคับ",
+      "13. Legal Requirement - ข้อกำหนดตามกฎหมาย",
+      "14. Standard - มาตรฐานสากลหรือมาตรฐานกำหนด",
+      "15. Enforcement - การบังคับใช้และสนับสนุน",
+      "16. Violation - การละเมิดหรือไม่ปฏิบัติตาม",
+      "17. Non-Compliance - ความไม่สอดคล้องตามข้อกำหนด",
+      "18. Penalty - บทลงโทษหรือการลงโทษ",
+      "19. Training - การฝึกอบรมและการศึกษา",
+      "20. Monitoring - การติดตามและเฝ้าระวัง",
+      "21. Internal Control - การควบคุมภายในองค์กร",
+      "22. External Audit - การตรวจสอบจากภายนอก",
+      "23. Root Cause Analysis - การวิเคราะห์สาเหตุหลัก",
+      "24. Corrective Action - การแก้ไขและปรับปรุง",
+      "25. Preventive Action - การป้องกันปัญหาล่วงหน้า",
+      "26. Data Protection - การปกป้องข้อมูลส่วนบุคคล",
+      "27. Confidentiality - ความเป็นความลับ",
+      "28. Integrity - ความถูกต้องและสมบูรณ์ของข้อมูล",
+      "29. Accountability - ความรับผิดชอบและการตอบสนอง",
+      "30. Transparency - ความโปร่งใส",
+      "31. Record Keeping - การเก็บรักษาบันทึก",
+      "32. Due Diligence - การทำความเตรียมตัวอย่างรอบคอบ",
+      "33. Code of Conduct - หลักจริยธรรมและประเพณี",
+      "34. Whistleblower - ผู้เปิดเผยข้อมูลที่ผิดกฎหมาย",
+      "35. Remediation - การแก้ไขและบรรเทาผลกระทบ",
+      "36. Certification - การรับรองและหนังสือรับรอง",
+      "37. Accreditation - การรับการรับรองมาตรฐาน",
+      "38. Best Practice - วิธีปฏิบัติที่ดีที่สุด",
+      "39. Stakeholder - ผู้มีส่วนได้ส่วนเสีย",
+      "40. Risk Assessment - การประเมินความเสี่ยง",
+      "41. Compliance Framework - กรอบการปฏิบัติตามกฎเกณฑ์",
+      "42. Compliance Report - รายงานการปฏิบัติตามกฎเกณฑ์",
+      "43. Third Party - บุคคลที่สาม",
+      "44. Due Process - ขั้นตอนทางกฎหมายที่ยุติธรรม",
+      "45. Remedial Measures - มาตรการแก้ไข",
+      "46. Compliance Testing - การทดสอบความสอดคล้อง",
+      "47. Audit Trail - บันทึกการตรวจสอบ",
+      "48. Compliance Status - สถานะการปฏิบัติตาม",
+      "49. Compliance Calendar - ปฏิทินกำหนดเวลาปฏิบัติตาม",
+      "50. Compliance Culture - วัฒนธรรมการปฏิบัติตามกฎเกณฑ์"
+    ];
 
     const resultEl = document.getElementById("result");
     const randomBtn = document.getElementById("randomBtn");
